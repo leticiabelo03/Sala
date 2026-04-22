@@ -1,0 +1,148 @@
+@model Sala.ViewModel.AdminDashboardViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["Title"] = "Dashboard Administrativo";
+}
+
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="sala-card border-bottom border-primary border-4">
+            <div class="card-title">Usuários</div>
+            <p class="info-number text-primary">@Model.TotalUsuarios</p>
+            <small class="text-muted">Ativos: @Model.TotalUsuariosAtivos</small>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="sala-card border-bottom border-warning border-4">
+            <div class="card-title">Chamados</div>
+            <p class="info-number text-warning">@Model.TotalChamados</p>
+            <small class="text-muted">Abertos: @Model.ChamadosAbertos</small>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="sala-card border-bottom border-success border-4">
+            <div class="card-title">Ordens de Serviço</div>
+            <p class="info-number text-success">@Model.TotalOrdensServico</p>
+            <small class="text-muted">Concluídas: @Model.OsConcluidas</small>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="sala-card border-bottom border-info border-4">
+            <div class="card-title">Faturamento</div>
+            <p class="info-number text-info">@Model.FaturamentoTotal.ToString("C")</p>
+            <small class="text-muted">Faturas pagas</small>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="sala-card">
+            <div class="card-title">Chamados</div>
+            <p class="mb-1">Abertos: <strong>@Model.ChamadosAbertos</strong></p>
+            <p class="mb-0">Fechados: <strong>@Model.ChamadosFechados</strong></p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="sala-card">
+            <div class="card-title">Ordens de Serviço</div>
+            <p class="mb-1">Pendentes: <strong>@Model.OsPendentes</strong></p>
+            <p class="mb-0">Concluídas: <strong>@Model.OsConcluidas</strong></p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="sala-card">
+            <div class="card-title">Faturas</div>
+            <p class="mb-1">Pendentes: <strong>@Model.FaturasPendentes</strong></p>
+            <p class="mb-0">Pagas: <strong>@Model.FaturasPagas</strong></p>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-7">
+        <div class="sala-card">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="m-0 fw-bold">Últimos Chamados</h5>
+                <a asp-controller="Chamado" asp-action="Index" class="btn btn-sm btn-outline-primary">Ver todos</a>
+            </div>
+
+            @if (Model.UltimosChamados.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Título</th>
+                                <th>Status</th>
+                                <th>Abertura</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var chamado in Model.UltimosChamados)
+                            {
+                                <tr>
+                                    <td>#@chamado.Id</td>
+                                    <td>@chamado.Titulo</td>
+                                    <td>@chamado.Status</td>
+                                    <td>@chamado.DataAbetura.ToString("dd/MM/yyyy HH:mm")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <p class="text-muted mb-0">Nenhum chamado encontrado.</p>
+            }
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="sala-card">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="m-0 fw-bold">Últimas Faturas</h5>
+                <a asp-controller="Financeiro" asp-action="Faturas" class="btn btn-sm btn-outline-primary">Ver todas</a>
+            </div>
+
+            @if (Model.UltimasFaturas.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Fatura</th>
+                                <th>OS</th>
+                                <th>Status</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var fatura in Model.UltimasFaturas)
+                            {
+                                <tr>
+                                    <td>#@fatura.Id</td>
+                                    <td>#@fatura.OrdemServicoId</td>
+                                    <td>@fatura.Status</td>
+                                    <td>@fatura.ValorTotal.ToString("C")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <p class="text-muted mb-0">Nenhuma fatura encontrada.</p>
+            }
+        </div>
+    </div>
+</div>

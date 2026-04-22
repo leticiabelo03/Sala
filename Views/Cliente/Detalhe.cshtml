@@ -1,0 +1,25 @@
+@model Sala.Model.Cliente
+
+@{
+    ViewData["Title"] = "Detalhe do Cliente";
+
+    if (User.IsInRole("Admin"))
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_LayoutTecnico.cshtml";
+    }
+}
+
+<div class="sala-card">
+    <h4 class="mb-3">Detalhe do Cliente</h4>
+
+    <p><strong>ID:</strong> @Model.Id</p>
+    <p><strong>Nome:</strong> @Model.Nome</p>
+    <p><strong>Email:</strong> @Model.Email</p>
+    <p><strong>Telefone:</strong> @Model.Telefone</p>
+
+    <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+</div>

@@ -1,0 +1,26 @@
+@model Sala.Model.Cliente
+
+@{
+    ViewData["Title"] = "Excluir Cliente";
+
+    if (User.IsInRole("Admin"))
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_LayoutTecnico.cshtml";
+    }
+}
+
+<div class="sala-card">
+    <h4 class="mb-3 text-danger">Excluir Cliente</h4>
+
+    <p>Tem certeza que deseja excluir o cliente <strong>@Model.Nome</strong>?</p>
+
+    <form asp-action="Deletar" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Excluir</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

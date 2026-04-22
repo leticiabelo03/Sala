@@ -1,0 +1,177 @@
+@model List<Sala.ViewModel.OrdemServicoListViewModel>
+
+@{
+    ViewData["Title"] = "Chamados";
+    string rotaDashboard = "Tecnico"; // Valor padrão
+
+    if (User.IsInRole("Admin"))
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+        rotaDashboard = "Admin"; // Se for Admin, vai para Admin
+    }
+    else if (User.IsInRole("Tecnico"))
+    {
+        Layout = "~/Views/Shared/_LayoutTecnico.cshtml";
+        rotaDashboard = "Admin"; // Como você pediu: Técnico também vai para Dashboard do Admin
+    }
+    else if (User.IsInRole("Financeiro"))
+    {
+        Layout = "~/Views/Shared/_LayoutFinanceiro.cshtml";
+        rotaDashboard = "Financeiro";
+    }
+}
+
+<div class="row g-4">
+
+    <!-- CARD RESUMO -->
+    <div class="col-12">
+        <div class="sala-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h4 class="fw-bold mb-1">Painel de Ordens de Serviço</h4>
+                    <small class="text-muted">
+                        Gerencie ordens criadas automaticamente a partir dos chamados fechados.
+                    </small>
+                </div>
+
+                <div class="text-end">
+                    <small class="text-muted">Total de OS</small>
+                    <h3 class="fw-bold text-warning m-0">
+                        @(Model?.Count ?? 0)
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABELA -->
+    <div class="col-12">
+        <div class="sala-card">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="fw-bold m-0">Lista de Ordens</h5>
+
+                <a asp-controller="Tecnico"
+                   asp-action="Index"
+                   class="btn btn-dark btn-sm">
+                    Voltar Dashboard
+                </a>
+            </div>
+
+            @if (Model != null && Model.Any())
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Chamado</th>
+                                <th>Status</th>
+                                <th>Criação</th>
+                                <th>Conclusão</th>
+                                <th>Valor</th>
+                                <th class="text-center">Ações</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    <td>
+                                        <strong>#@item.Id</strong>
+                                    </td>
+
+                                    <td>
+                                        #@item.ChamadoId
+                                    </td>
+
+                                    <td>
+                                        @if (item.statusOrdemServico.ToString() == "Pendente")
+                                        {
+                                            <span class="badge bg-secondary">
+                                                Pendente
+                                            </span>
+                                        }
+                                        else if (item.statusOrdemServico.ToString() == "EmAndamento")
+                                        {
+                                            <span class="badge bg-primary">
+                                                Em Andamento
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-success">
+                                                Concluído
+                                            </span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @item.DataCriacao.ToString("dd/MM/yyyy HH:mm")
+                                    </td>
+
+                                    <td>
+                                        @if (item.DataConclusao == DateTime.MinValue)
+                                        {
+                                            <span class="text-muted">-</span>
+                                        }
+                                        else
+                                        {
+                                            @item.DataConclusao.ToString("dd/MM/yyyy HH:mm")
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @item.ValorTotal.ToString("C")
+                                    </td>
+
+                                    <td class="text-center">
+
+                                        <a asp-controller="OrdemServico"
+                                           asp-action="Editar"
+                                           asp-route-id="@item.Id"
+                                           class="btn btn-sm btn-warning me-1">
+                                            Editar
+                                        </a>
+
+                                        <a asp-controller="OrdemServico"
+                                           asp-action="Detalhe"
+                                           asp-route-id="@item.Id"
+                                           class="btn btn-sm btn-info text-white me-1">
+                                            Detalhes
+                                        </a>
+
+                                        <a asp-controller="OrdemServico"
+                                           asp-action="Deletar"
+                                           asp-route-id="@item.Id"
+                                           class="btn btn-sm btn-danger">
+                                            Excluir
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info mb-0">
+                    Nenhuma ordem de serviço encontrada no momento.
+                </div>
+            }
+
+        </div>
+    </div>
+
+</div>

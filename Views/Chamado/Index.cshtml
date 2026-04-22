@@ -1,0 +1,69 @@
+@model IEnumerable<Sala.ViewModel.ChamadoListViewModel>
+
+@{
+    ViewData["Title"] = "Chamados";
+
+    if (User.IsInRole("Admin"))
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    else if (User.IsInRole("Tecnico"))
+    {
+        Layout = "~/Views/Shared/_LayoutTecnico.cshtml";
+    }
+    else if (User.IsInRole("Financeiro"))
+    {
+        Layout = "~/Views/Shared/_LayoutFinanceiro.cshtml";
+    }
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Chamados</h1>
+    <a asp-action="Criar" class="btn btn-primary">Novo Chamado</a>
+</div>
+
+<table class="table table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Prioridade</th>
+            <th>Status</th>
+            <th>Abertura</th>
+            <th>Ações</th>
+            <th>Categoria</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Titulo</td>
+                <td>
+                    @{
+                        var corPrioridade = item.PrioridadeChamado switch
+                        {
+                            Sala.Model.PrioridadeChamadoEnum.Baixa => "badge bg-info",
+                            Sala.Model.PrioridadeChamadoEnum.Media => "badge bg-primary",
+                            Sala.Model.PrioridadeChamadoEnum.Alta => "badge bg-warning text-dark",
+                            Sala.Model.PrioridadeChamadoEnum.Critica => "badge bg-danger",
+                            _ => "badge bg-secondary"
+                        };
+                    }
+                    <span class="@corPrioridade">@item.PrioridadeChamado</span>
+                </td>
+                <td>@item.Status</td>
+                <td>@item.DataAbertura.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>
+                    <a asp-action="Editar" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Editar</a>
+                    <a asp-action="Detalhe" asp-route-id="@item.Id" class="btn btn-sm btn-info">Ver</a>
+                    <a asp-action="Editar" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Editar</a>
+                    <a asp-action="Deletar" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Excluir</a>
+                </td>
+                <td>@item.CategoriaNome</td>
+            </tr>
+        }
+    </tbody>
+</table>

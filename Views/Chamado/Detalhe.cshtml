@@ -1,0 +1,76 @@
+@model Sala.ViewModel.ChamadoDetalheViewModel
+
+@{
+    ViewData["Title"] = "Chamados";
+
+    if (User.IsInRole("Admin"))
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    else if (User.IsInRole("Tecnico"))
+    {
+        Layout = "~/Views/Shared/_LayoutTecnico.cshtml";
+    }
+    else if (User.IsInRole("Financeiro"))
+    {
+        Layout = "~/Views/Shared/_LayoutFinanceiro.cshtml";
+    }
+}
+
+<div class="container mt-4">
+    <h2>Detalhes do Chamado</h2>
+
+    <div class="card mt-3">
+        <div class="card-body">
+
+            <h5 class="card-title">@Model.Titulo</h5>
+
+            <p class="card-text">
+                <strong>Descrição:</strong><br />
+                @Model.Descricao
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+                @{
+                    var corStatus = Model.Status switch {
+                        Sala.Model.StatusChamadoEnum.Aberto => "badge bg-success",
+                        Sala.Model.StatusChamadoEnum.Em_andamento => "badge bg-warning text-dark",
+                        Sala.Model.StatusChamadoEnum.Fechado => "badge bg-secondary",
+                        _ => "badge bg-dark"
+                    };
+                }
+                <span class="@corStatus">
+                    @Model.Status.ToString().Replace("_", " ")
+                </span>
+            </p>
+
+            <p>
+                <strong>Prioridade:</strong>
+                <span class="badge bg-info">
+                    @Model.PrioridadeChamado
+                </span>
+            </p>
+
+            <p><strong>Categoria:</strong> @Model.CategoriaNome</p>
+
+            <p><strong>Usuário:</strong> @Model.UsuarioAberturaNome</p>
+
+            <p>
+                <strong>Abertura:</strong>
+                @Model.DataAbertura.ToString("dd/MM/yyyy HH:mm")
+            </p>
+
+            <p>
+                <strong>Fechamento:</strong>
+                @(Model.DataFechamento?.ToString("dd/MM/yyyy HH:mm") ?? "Em aberto")
+            </p>
+
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <a asp-action="Editar" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
+        <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+    </div>
+</div>

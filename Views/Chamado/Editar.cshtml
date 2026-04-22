@@ -1,0 +1,76 @@
+@model Sala.ViewModel.ChamadoEditViewModel
+
+@{
+    ViewData["Title"] = "Editar Chamado";
+
+    if (User.IsInRole("Admin"))
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    else if (User.IsInRole("Tecnico"))
+    {
+        Layout = "~/Views/Shared/_LayoutTecnico.cshtml";
+    }
+    else if (User.IsInRole("Financeiro"))
+    {
+        Layout = "~/Views/Shared/_LayoutFinanceiro.cshtml";
+    }
+}
+
+<div class="container mt-4">
+    <h4>Editar Chamado</h4>
+    <hr />
+
+    <form asp-action="Editar" method="post">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="Titulo" class="form-label">Título</label>
+                <input asp-for="Titulo" class="form-control" />
+                <span asp-validation-for="Titulo" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label asp-for="ClienteId" class="form-label">Cliente</label>
+                <select asp-for="ClienteId" asp-items="ViewBag.Clientes" class="form-select">
+                    <option value="">Selecione um cliente...</option>
+                </select>
+                <span asp-validation-for="ClienteId" class="text-danger"></span>
+            </div>
+
+            <div class="col-12 mb-3">
+                <label asp-for="Descricao" class="form-label">Descrição</label>
+                <textarea asp-for="Descricao" class="form-control"></textarea>
+                <span asp-validation-for="Descricao" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label asp-for="Status" class="form-label">Status</label>
+                <select asp-for="Status" class="form-select"
+                        asp-items="Html.GetEnumSelectList<Sala.Model.StatusChamadoEnum>()">
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label asp-for="PrioridadeChamado" class="form-label">Prioridade</label>
+                <select asp-for="PrioridadeChamado" class="form-select"
+                        asp-items="Html.GetEnumSelectList<Sala.Model.PrioridadeChamadoEnum>()">
+                </select>
+                <span asp-validation-for="PrioridadeChamado" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label asp-for="CategoriaId" class="form-label">Categoria</label>
+                <select asp-for="CategoriaId" asp-items="ViewBag.Categorias" class="form-select">
+                    <option value="">Selecione uma categoria...</option>
+                </select>
+                <span asp-validation-for="CategoriaId" class="text-danger"></span>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success">Salvar</button>
+        <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+    </form>
+</div>

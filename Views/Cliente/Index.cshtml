@@ -1,0 +1,56 @@
+@model List<Sala.Model.Cliente>
+
+@{
+    ViewData["Title"] = "Clientes";
+
+    if (User.IsInRole("Admin"))
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_LayoutTecnico.cshtml";
+    }
+}
+
+<div class="sala-card">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="m-0">Clientes</h4>
+        <a asp-action="Criar" class="btn btn-primary">Novo Cliente</a>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Telefone</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cliente in Model)
+                {
+                    <tr>
+                        <td>@cliente.Id</td>
+                        <td>@cliente.Nome</td>
+                        <td>@cliente.Email</td>
+                        <td>@cliente.Telefone</td>
+                        <td>
+                            <a asp-action="Detalhe" asp-route-id="@cliente.Id" class="btn btn-sm btn-info">Detalhe</a>
+                            <a asp-action="Editar" asp-route-id="@cliente.Id" class="btn btn-sm btn-warning">Editar</a>
+                            <a asp-action="Deletar" asp-route-id="@cliente.Id" class="btn btn-sm btn-danger">Excluir</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info mb-0">Nenhum cliente cadastrado.</div>
+    }
+</div>

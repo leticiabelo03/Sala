@@ -1,0 +1,90 @@
+@model Sala.ViewModel.FinanceiroDashboardViewModel
+
+@{
+    ViewData["Title"] = "Chamados";
+
+    if (User.IsInRole("Admin"))
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    else if (User.IsInRole("Tecnico"))
+    {
+        Layout = "~/Views/Shared/_LayoutTecnico.cshtml";
+    }
+    else if (User.IsInRole("Financeiro"))
+    {
+        Layout = "~/Views/Shared/_LayoutFinanceiro.cshtml";
+    }
+}
+
+<div class="row g-4 mb-4">
+
+    <div class="col-md-3">
+        <div class="card-sala">
+            <h6>OS Pendentes</h6>
+            <h2>@Model.TotalPendentes</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card-sala">
+            <h6>Valor Pendente</h6>
+            <h2>@Model.ValorPendente.ToString("C")</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card-sala">
+            <h6>Faturas Emitidas</h6>
+            <h2>@Model.TotalFaturas</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card-sala">
+            <h6>Total Faturado</h6>
+            <h2>@Model.ValorFaturado.ToString("C")</h2>
+        </div>
+    </div>
+
+</div>
+
+<div class="card-sala">
+
+    <h4 class="mb-4">Ordens prontas para faturamento</h4>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>OS</th>
+                <th>Conclusão</th>
+                <th>Valor</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (var item in Model.Pendentes)
+            {
+                <tr>
+                    <td>#@item.Id</td>
+                    <td>@item.DataConclusao.ToString("dd/MM/yyyy")</td>
+                    <td>@item.ValorTotal.ToString("C")</td>
+                    <td>
+
+                        <form asp-action="Faturar" method="post">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button class="btn btn-success btn-sm">
+                                Faturar
+                            </button>
+                        </form>
+
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+</div>

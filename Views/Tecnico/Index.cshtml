@@ -1,0 +1,60 @@
+@model Sala.ViewModel.TecnicoDashboardViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutTecnico.cshtml";
+    ViewData["Title"] = "Painel Técnico";
+}
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="sala-card border-start border-warning border-4">
+            <h5 class="mb-2">Chamados</h5>
+            <h2 class="fw-bold">@Model.TotalChamados</h2>
+            <small class="text-muted">Total cadastrados no sistema</small>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="sala-card border-start border-danger border-4">
+            <h5 class="mb-2">Chamados Abertos</h5>
+            <h2 class="fw-bold">@Model.TotalChamadosAbertos</h2>
+            <small class="text-muted">Aguardando atendimento ou fechamento</small>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="sala-card border-start border-primary border-4">
+            <h5 class="mb-2">Ordens de Serviço</h5>
+            <h2 class="fw-bold">@Model.TotalOrdensServico</h2>
+            <small class="text-muted">Total geradas no sistema</small>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="sala-card border-start border-success border-4">
+            <h5 class="mb-2">OS Concluídas</h5>
+            <h2 class="fw-bold">@Model.TotalOrdensConcluidas</h2>
+            <small class="text-muted">Finalizadas pela equipe técnica</small>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mt-2">
+    <div class="col-md-6">
+        <div class="sala-card text-center">
+            <h5 class="mb-3">Gerenciar Chamados</h5>
+            <a asp-controller="Chamado" asp-action="Index" class="btn btn-warning fw-bold px-4">
+                Ir para Chamados
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="sala-card text-center">
+            <h5 class="mb-3">Gerenciar Ordens de Serviço</h5>
+            <a asp-controller="OrdemServico" asp-action="Index" class="btn btn-dark fw-bold px-4">
+                Ir para OS
+            </a>
+        </div>
+    </div>
+</div>

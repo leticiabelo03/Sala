@@ -1,0 +1,43 @@
+@model Sala.ViewModel.OrdemServicoEditViewModel
+
+@{
+    ViewData["Title"] = "Chamados";
+
+    if (User.IsInRole("Admin"))
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    else if (User.IsInRole("Tecnico"))
+    {
+        Layout = "~/Views/Shared/_LayoutTecnico.cshtml";
+    }
+    else if (User.IsInRole("Financeiro"))
+    {
+        Layout = "~/Views/Shared/_LayoutFinanceiro.cshtml";
+    }
+}
+
+<div class="sala-card">
+    <h4 class="mb-4">Editar Ordem de Serviço</h4>
+
+    <form asp-action="Editar" method="post">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label asp-for="statusOrdemServico" class="form-label">Status</label>
+            <select asp-for="statusOrdemServico"
+                    asp-items="Html.GetEnumSelectList<Sala.Model.StatusOrdemServicoEnum>()"
+                    class="form-select">
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ValorTotal" class="form-label">Valor Total</label>
+            <input asp-for="ValorTotal" class="form-control" />
+            <span asp-validation-for="ValorTotal" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success">Salvar</button>
+        <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+    </form>
+</div>

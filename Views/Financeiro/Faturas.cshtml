@@ -1,0 +1,86 @@
+@model List<Sala.Model.Fatura>
+
+@{
+    ViewData["Title"] = "Chamados";
+
+    if (User.IsInRole("Admin"))
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    else if (User.IsInRole("Tecnico"))
+    {
+        Layout = "~/Views/Shared/_LayoutTecnico.cshtml";
+    }
+    else if (User.IsInRole("Financeiro"))
+    {
+        Layout = "~/Views/Shared/_LayoutFinanceiro.cshtml";
+    }
+}
+
+<div class="card-sala">
+    <h4 class="mb-4">Faturas Emitidas</h4>
+
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Fatura</th>
+                    <th>OS</th>
+                    <th>Valor</th>
+                    <th>Status</th>
+                    <th>Geração</th>
+                    <th>Vencimento</th>
+                    <th class="text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>#@item.Id</td>
+                        <td>#@item.OrdemServicoId</td>
+                        <td>@item.ValorTotal.ToString("C")</td>
+                        <td>
+                            @if (item.Status == Sala.Model.StatusFaturaEnum.Pendente)
+                            {
+                                <span class="badge bg-warning text-dark">Pendente</span>
+                            }
+                            else if (item.Status == Sala.Model.StatusFaturaEnum.Pago)
+                            {
+                                <span class="badge bg-success">Pago</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Atrasado</span>
+                            }
+                        </td>
+                        <td>@item.DataGeracao.ToString("dd/MM/yyyy")</td>
+                        <td>@item.DataVencimento.ToString("dd/MM/yyyy")</td>
+                        <td class="text-center">
+                            @if (item.Status == Sala.Model.StatusFaturaEnum.Pendente)
+                            {
+                                <a asp-controller="Pagamento"
+                                   asp-action="Criar"
+                                   asp-route-faturaId="@item.Id"
+                                   class="btn btn-sm btn-success">
+                                    Registrar Pagamento
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">-</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info mb-0">
+            Nenhuma fatura emitida até o momento.
+        </div>
+    }
+</div>

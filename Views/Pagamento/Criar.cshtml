@@ -1,0 +1,51 @@
+@model Sala.ViewModel.PagamentoCreateViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutFinanceiro.cshtml";
+    ViewData["Title"] = "Registrar Pagamento";
+}
+
+<div class="card-sala">
+    <h4 class="mb-4">Registrar Pagamento</h4>
+
+    <form asp-action="Criar" method="post">
+        <input type="hidden" asp-for="FaturaId" />
+
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="mb-3">
+            <label class="form-label">Fatura</label>
+            <input class="form-control" value="@Model.FaturaId" readonly />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Valor da Fatura</label>
+            <input class="form-control" value="@Model.ValorFatura.ToString("C")" readonly />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ValorPago" class="form-label">Valor Pago</label>
+            <input asp-for="ValorPago" class="form-control" />
+            <span asp-validation-for="ValorPago" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Metodo" class="form-label">Método de Pagamento</label>
+            <select asp-for="Metodo"
+                    asp-items="Html.GetEnumSelectList<Sala.Model.MetodoPagamentoEnum>()"
+                    class="form-select">
+            </select>
+            <span asp-validation-for="Metodo" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="DataPagamento" class="form-label">Data do Pagamento</label>
+            <input asp-for="DataPagamento" type="datetime-local" class="form-control"
+                   value="@Model.DataPagamento.ToString("yyyy-MM-ddTHH:mm")" />
+            <span asp-validation-for="DataPagamento" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success">Confirmar Pagamento</button>
+        <a asp-controller="Financeiro" asp-action="Faturas" class="btn btn-secondary">Voltar</a>
+    </form>
+</div>
