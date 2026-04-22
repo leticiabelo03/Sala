@@ -247,7 +247,6 @@ C:\Users\Guilherne\SalaApp\SalaApp\obj\Debug\net10.0\SalaApp.csproj.CoreCompileI
 C:\Users\Guilherne\SalaApp\SalaApp\obj\Debug\net10.0\SalaApp.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Guilherne\SalaApp\SalaApp\obj\Debug\net10.0\SalaApp.RazorAssemblyInfo.cache
 C:\Users\Guilherne\SalaApp\SalaApp\obj\Debug\net10.0\SalaApp.RazorAssemblyInfo.cs
-C:\Users\Guilherne\SalaApp\SalaApp\obj\Debug\net10.0\SalaApp.sourcelink.json
 C:\Users\Guilherne\SalaApp\SalaApp\obj\Debug\net10.0\rjimswa.dswa.cache.json
 C:\Users\Guilherne\SalaApp\SalaApp\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
 C:\Users\Guilherne\SalaApp\SalaApp\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
