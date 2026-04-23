@@ -19,7 +19,7 @@ O **SALA** (Sistema Administrativo de Logística e Atendimento) é uma aplicaç�
 
 O projeto foi construído simulando um cenário empresarial real, onde diferentes setores trabalham conectados por fluxos automatizados.
 
-*Professor:* Andre Muniz (@agdelira)
+*Professor:* Andre Muniz @agdelira
 
 ---
 
