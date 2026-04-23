@@ -43,3 +43,5 @@ Controllers  → Regras e fluxo do sistema
 Views        → Interface com Razor
 ViewModels   → Dados específicos das telas
 Data         → Contexto do banco
+
+*Professor:* Andre Muniz (@agdelira)
