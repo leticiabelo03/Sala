@@ -19,6 +19,8 @@ O **SALA** (Sistema Administrativo de Logística e Atendimento) é uma aplicaç�
 
 O projeto foi construído simulando um cenário empresarial real, onde diferentes setores trabalham conectados por fluxos automatizados.
 
+*Professor:* Andre Muniz (@agdelira)
+
 ---
 
 # 🎯 Objetivo
@@ -44,4 +46,3 @@ Views        → Interface com Razor
 ViewModels   → Dados específicos das telas
 Data         → Contexto do banco
 
-*Professor:* Andre Muniz (@agdelira)
